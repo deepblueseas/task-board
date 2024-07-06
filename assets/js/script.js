@@ -9,6 +9,9 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+    const taskcard = $('<div>')
+    .addClass('card task-card draggable my-3')
+    .attr('data-task-id', task.id);
 
 }
 

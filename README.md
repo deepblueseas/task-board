@@ -3,7 +3,7 @@
 ## Goals & Acceptance Criteria (adapted from the CWRU prompt)
 1. When I open the task board I see a list of projects sorted into
     - Not Started, In Progress, Completed
-2. When I view the task board for a specific project I see each task is color-coded
+2. When I view the task board I see each task is color-coded
     - Yellow = deadline approaching; Red = deadline passed
 3. When I click the button to define a new task I can enter into a **modal**
     - Title; Description; Deadline Date (via dayjs)
