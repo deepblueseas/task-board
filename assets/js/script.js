@@ -40,6 +40,10 @@ function handleAddTask(event){
         
           $('#saveTaskButton').on('click', handleAddTask);
         };
+
+        $( function() {
+            $( "#datepicker" ).datepicker();
+          } );
    
 
 

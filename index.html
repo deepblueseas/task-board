@@ -40,50 +40,67 @@
             <!--New Task Form and Datepicker Here-->
             <form id="taskForm">
               <div class="form-group">
-                <label for="taskName">Task Name</label>
-                <input type="text" class="form-control" id="taskName" placeholder="Enter task name">
+                <label for="taskName" class="form-label">New Task Name:</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="taskName" placeholder="Enter task name">
+                </div>
+                <div class="form-group">
+                  <label for="taskDescription" class="form-label">Description:</label>
+                  <div class="input-group mb-3">
+                  <textarea class="form-control" id="taskDescription"
+                    placeholder="Enter a brief description of your new task here" rows="3"></textarea>
+                </div>
+              </div>
+                <div class="form-group">
+                  <label for="datepicker">Due Date:</label>
+                  <div class="input-group mb-3">
+                  <input type="text" id="datepicker">
+                </div>
+                </div>
               </div>
             </form>
-            <div class="modal-footer">
-              <button type="button" id="closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" id="saveTaskBtn" class="btn btn-primary">Save New Task</button>
-            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" id="closeModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="saveTaskBtn" class="btn btn-primary">Save New Task</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="row swim-lanes text-center justify-content-between">
-      <div class="col-12 col-lg-4 d-flex">
-        <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
-          <div class="card-header bg-white">
-            <h2 class="card-title mb-1">To Do</h2>
-          </div>
-          <div class="card-body bg-light">
-            <div id="todo-cards"></div>
-          </div>
+  </div>
+  <div class="row swim-lanes text-center justify-content-between">
+    <div class="col-12 col-lg-4 d-flex">
+      <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
+        <div class="card-header bg-white">
+          <h2 class="card-title mb-1">To Do</h2>
         </div>
-      </div>
-      <div class="col-12 col-lg-4 d-flex">
-        <div id="in-progress" class="card border-light mb-3 lane flex-grow-1">
-          <div class="card-header bg-white">
-            <h2 class="card-title mb-1">In Progress</h2>
-          </div>
-          <div class="card-body bg-light">
-            <div id="in-progress-cards"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-lg-4 d-flex">
-        <div id="done" class="card border-light mb-3 lane flex-grow-1">
-          <div class="card-header bg-white">
-            <h2 class="card-title mb-1">Done</h2>
-          </div>
-          <div class="card-body bg-light">
-            <div id="done-cards"></div>
-          </div>
+        <div class="card-body bg-light">
+          <div id="todo-cards"></div>
         </div>
       </div>
     </div>
+    <div class="col-12 col-lg-4 d-flex">
+      <div id="in-progress" class="card border-light mb-3 lane flex-grow-1">
+        <div class="card-header bg-white">
+          <h2 class="card-title mb-1">In Progress</h2>
+        </div>
+        <div class="card-body bg-light">
+          <div id="in-progress-cards"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 d-flex">
+      <div id="done" class="card border-light mb-3 lane flex-grow-1">
+        <div class="card-header bg-white">
+          <h2 class="card-title mb-1">Done</h2>
+        </div>
+        <div class="card-body bg-light">
+          <div id="done-cards"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
