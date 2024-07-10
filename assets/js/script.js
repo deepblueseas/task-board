@@ -10,8 +10,8 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
     const taskcard = $('<div>')
-    .addClass('card task-card draggable my-3')
-    .attr('data-task-id', task.id);
+        .addClass('card task-card draggable my-3')
+        .attr('data-task-id', task.id);
 
 }
 
@@ -21,9 +21,9 @@ function renderTaskList() {
 }
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(event){
+function handleAddTask(event) {
     const taskName = $('#taskName').val();
-    if (taskName.trim() !==""){
+    if (taskName.trim() !== "") {
         console.log("New task added:" + taskName);
         $('#taskName').val('');
 
@@ -31,25 +31,27 @@ function handleAddTask(event){
     } else {
         alert("Please enter a task name!")
     }
-    }
+}
 
-    function openModal(){
-        $('#openFormModal').on('click', function() {
-            $('#formModal').modal('show');
-          });
-        
-          $('#saveTaskButton').on('click', handleAddTask);
-        };
+function openModal() {
+    $('#openFormModal').on('click', function () {
+        $('#formModal').modal('show');
+    });
 
-        $( function() {
-            $( "#datepicker" ).datepicker();
-          } );
-   
+    $('#saveTaskButton').on('click', function(){
+        handleAddTask();
+    });
+};
+
+
+$("#datepicker").datepicker();
+
+
 
 
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
+function handleDeleteTask(event) {
 
 }
 
