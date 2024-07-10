@@ -22,8 +22,27 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+    const taskName = $('#taskName').val();
+    if (taskName.trim() !==""){
+        console.log("New task added:" + taskName);
+        $('#taskName').val('');
 
-}
+        $('#formModal').modal('hide');
+    } else {
+        alert("Please enter a task name!")
+    }
+    }
+
+    function openModal(){
+        $('#openFormModal').on('click', function() {
+            $('#formModal').modal('show');
+          });
+        
+          $('#saveTaskButton').on('click', handleAddTask);
+        };
+   
+
+
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
@@ -37,5 +56,6 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    openModal();
 
 });
