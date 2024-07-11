@@ -9,7 +9,17 @@ function generateTaskId() {
     nextId++; // ++ is the increment operator
     localStorage.setItem('nextId', JSON.stringify(nextId));
     return newtaskId;
-}
+};
+
+// the below would be used in alternate way to delete task function
+// function readTaskListFromStorage(){
+//     let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+//     if (!tasks) {
+//         tasks = [];
+//     }
+//     return tasks;
+// }
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
@@ -38,12 +48,24 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+    $('#todo-cards').empty();
+    $('#in-progress-cards').empty();
+    $('#done-cards').empty();
+
+    taskList.forEach(task => {
+        const taskCard = createTaskCard(task);
+        $('#todo-cards').append(taskCard);
+    });
+
+    $('.draggable').draggable({
+        revert: "invalid"
+    });
 
 }
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event) {
-    event.preventDefault();
+    // event.preventDefault();
 
     const taskName = $('#taskName').val();
     const taskDescription = $('#taskDescription').val().trim();
@@ -60,43 +82,45 @@ function handleAddTask(event) {
         console.log("New task added:" + taskName);
         console.log("Description: " + taskDescription);
         console.log("Due Date: " + dueDate);
-    
-    // add the new task to our array to saved objects in local storage with .push
-    taskList.push(newTask);
-    localStorage.setItem('tasks', JSON.stringify(taskList));
 
-    renderTaskList();
+        // add the new task to our array to saved objects in local storage with .push
+        taskList.push(newTask);
+        localStorage.setItem('tasks', JSON.stringify(taskList));
 
-    // sets these fields back to empty after new task is saved/submitted
-    $('#taskName').val('');
-    $('#taskDescription').val('');
-    $('#datepicker').val('');
-    $('#formModal').modal('hide');
-} else {
-    alert("Please enter a task name!");
-}
+        renderTaskList();
+
+        // sets these fields back to empty after new task is saved/submitted
+        $('#taskName').val('');
+        $('#taskDescription').val('');
+        $('#datepicker').val('');
+        $('#formModal').modal('hide');
+    } else {
+        alert("Please enter a task name!");
+    }
 };
-
-
-
-$('#saveTaskBtn').on('click', function () {
-    handleAddTask();
-});
-
-
-
-
-
-
-
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
+    const taskId = $(event.target).attr('data-task-id');
+    taskList = taskList.filter(task => task.id !=taskId);
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+    renderTaskList();
 
-}
+// this could also have been written as:
+// const taskId = $(this).attr('data-project-id');
+// const taskList = readTaskListFromStorage();
+// tasks.forEach((task => {
+//     if (task.id === taskId) {
+//         tasks.splice(tasks.indexOf(project), 1);
+//     }
+// }))
+
+};
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+    const taskId = ui.draggable.data('task-id');
+    const newStatus = $(this).attr('id');
 
 }
 
@@ -120,4 +144,8 @@ $(document).ready(function () {
         });
 
     }
+
+    $('#saveTaskBtn').on('click', function () {
+        handleAddTask();
+    });
 });
