@@ -2,6 +2,10 @@
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
 
+
+console.log("Initial taskList:", taskList);
+console.log("Initial nextId:", nextId);
+
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
     let task = nextId;
@@ -43,8 +47,16 @@ function renderTaskList() {
     $('#in-progress-cards').empty();
     $('#done-cards').empty();
 
+    console.log("Rendering taskList:", taskList);
     taskList.forEach(task => {
+        console.log("Processing task:", task);
         const taskCard = createTaskCard(task);
+
+        // Correct any status typos here
+        if (task.status === 'to-do') {
+            task.status = 'todo';
+        }
+
         switch (task.status) {
             case 'todo':
                 $('#todo-cards').append(taskCard);
@@ -55,6 +67,8 @@ function renderTaskList() {
             case 'done':
                 $('#done-cards').append(taskCard);
                 break;
+            default:
+                console.error("Unknown task status:", task.status);
         }
     });
 
@@ -66,14 +80,13 @@ function renderTaskList() {
         stop: function() {
             $(this).removeClass('dragging');
         }
-
     });
 
     $('.droppable').droppable({
         accept: '.draggable',
         drop: handleDrop
-            });
-}
+    });
+};
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event) {
@@ -86,7 +99,7 @@ function handleAddTask(event) {
     if (taskName.trim() !== "") {
         //building out the new-task object
         //this mirrors the new task-card and fields we can fill in in the modal
-        const newTask = {
+        const task = {
             id: generateTaskId(),
             taskName: taskName,
             taskDescription: taskDescription,
@@ -95,8 +108,9 @@ function handleAddTask(event) {
         };
 
         // add the new task to our array to saved objects in local storage with .push
-        taskList.push(newTask);
+        taskList.push(task);
         localStorage.setItem('tasks', JSON.stringify(taskList));
+        console.log("New taskList after adding:", taskList);
 
         renderTaskList();
 
@@ -115,6 +129,7 @@ function handleDeleteTask(event) {
     const taskId = $(event.target).attr('data-task-id');
     taskList = taskList.filter(task => task.id !=taskId);
     localStorage.setItem('tasks', JSON.stringify(taskList));
+    console.log("TaskList after deletion:", taskList);
     renderTaskList();
 
 // this could also have been written as:
@@ -130,6 +145,7 @@ function handleDeleteTask(event) {
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
+    event.preventDefault();
     const taskId = ui.draggable.data('task-id');
     const newStatus = $(this).attr('id').replace('-cards', '');
 
@@ -140,7 +156,7 @@ function handleDrop(event, ui) {
         renderTaskList();
     }
 
-}
+};
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
