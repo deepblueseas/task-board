@@ -14,3 +14,7 @@ body {
 .task-card:hover {
   cursor: grab;
 }
+
+.dragging {
+  opacity: 0.5;
+}

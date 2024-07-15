@@ -88,8 +88,10 @@ function renderTaskList() {
 
     //above we added the attribute draggable to the taskcard div and are applying the jQuery method draggable
     $('.draggable').draggable({
+        //if the card is let go of somewhere other than in a lane it bounces back to its original position on the page
         revert: "invalid",
         start: function() {
+            // this is referring to the taskcard in this function
             $(this).addClass('dragging');
         },
         stop: function() {
@@ -97,6 +99,8 @@ function renderTaskList() {
         }
     });
 
+    //.droppable is another jQuery UI method :)
+    //this is what allows the lanes to accept our taskcards
     $('.droppable').droppable({
         accept: '.draggable',
         drop: handleDrop
@@ -107,6 +111,7 @@ function renderTaskList() {
 function handleAddTask(event) {
     event.preventDefault();
 
+    // getting values input into these fields in the form
     const taskName = $('#taskName').val();
     const taskDescription = $('#taskDescription').val().trim();
     const dueDate = $('#datepicker').val().trim();
@@ -147,7 +152,9 @@ function handleDeleteTask(event) {
     console.log("TaskList after deletion:", taskList);
     renderTaskList();
 
-// this could also have been written as:
+// this could also have been written as or something very close,
+// as we did in the mini project for this week
+
 // const taskId = $(this).attr('data-project-id');
 // const taskList = readTaskListFromStorage();
 // tasks.forEach((task => {
@@ -156,14 +163,25 @@ function handleDeleteTask(event) {
 //     }
 // }))
 
+//however i do believe a loop/slicing takes up more energy than .filter
+
 };
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
     event.preventDefault();
+    // getting all the info about the dragged/draggable task and its id
     const taskId = ui.draggable.data('task-id');
+    // grab the id of the lane the card was dropped in and replace the previous "..."-card part of the tasks id
+    // the initial instance would be 'todo-card'
+    // here this refers to the taskcard
+    // by doing this we are getting the status only of the card
+    // ie: todo, in progress, and complete rather than todo-cards, in-progress-cards etc
     const newStatus = $(this).attr('id').replace('-cards', '');
 
+    // and now we can update the status part of the task const!
+
+    // we are finding the specific task we're modifying by moving and setting its new status in local storage so that it's positon on the page persists
     const task = taskList.find(task => task.id == taskId);
     if (task) {
         task.status = newStatus;
@@ -177,19 +195,20 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
     openModal();
 
-    // initialize datepicker
+    // initialize jQuery datepicker
     $("#datepicker").datepicker({
         changeMonth: true,
         changeYear: true,
     });
 
     //make lanes draggable/accept items dragged into them
+    // i think i could have made this and the previous droppable part drier...
     $('.lane').droppable({
         accept: '.draggable',
         drop: handleDrop,
     }); 
 
-    // making each of the cards draggable and change their status based on lane/category
+    // making each of the cards draggable and 'set' their status based on lane/category
     $('#todo-cards').addClass('droppable').data('status', 'todo');
     $('#in-progress-cards').addClass('droppable').data('status', 'in-progress');
     $('#done-cards').addClass('droppable').data('status', 'done');
