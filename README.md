@@ -4,7 +4,7 @@
 1. When I open the task board I see a list of projects sorted into
     - **To Do**, **In Progress**, **Completed**
 2. When I view the task board I see each task is color-coded
-    - **Yellow** = deadline approaching; <br> 
+    - **Yellow** = deadline approaching (w/in 4 days); <br> 
     - **Red** = deadline passed
 3. When I click the button to define a new task I can enter into a **modal**
     - Fields include: **Title**, **Description**, **DueDate** (via dayjs)
