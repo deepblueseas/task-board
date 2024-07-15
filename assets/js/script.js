@@ -1,4 +1,11 @@
 // Retrieve tasks and nextId from localStorage
+
+// the [] assigns tasklist an empty array if there is nothing yet stored in local storage
+// if there is no information stored, then the 1 will assign taskID of 1 the first item stored 
+
+// this could have been coded as if (!tasklist) {tasklist=[];} and if (!nextId) {nextid=1;}
+// but i think the below looks cleaner
+
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
 
@@ -17,7 +24,9 @@ function generateTaskId() {
 // Todo: create a function to create a task card
 function createTaskCard(task) {
     const taskCard = $('<div>')
+        //draggble is a jQuery UI method :)
         .addClass('card task-card draggable my-3')
+        //assigning the id to the task
         .attr('data-task-id', task.id);
 
     //builds out the look of the new task cards
@@ -29,11 +38,12 @@ function createTaskCard(task) {
     const cardDeleteBtn = $('<button>')
         .addClass('btn btn-danger delete')
         .text('Delete')
+        //makes sure we're deleting the right task w/the corresponding id
         .attr('data-task-id', task.id);
 
     cardDeleteBtn.on('click', handleDeleteTask);
 
-    //puts the card together
+    //puts the card together by appending children to the parent
     cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
     taskCard.append(cardHeader, cardBody);
 
@@ -43,21 +53,25 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+    //this helps with bugs that occur when moving cards across lanes
+    //if not included then cards duplicate in a really fascinating way and do not land properly in their lanes
+    //the .empty clears old data (what lane the card was in before dragging for example)
     $('#todo-cards').empty();
     $('#in-progress-cards').empty();
     $('#done-cards').empty();
-
-    console.log("Rendering taskList:", taskList);
+    
+    // forEach method iterates through each element in an array and in this instance we are running the createtaskcard function on each task in the tasklist
     taskList.forEach(task => {
-        console.log("Processing task:", task);
         const taskCard = createTaskCard(task);
 
-        // Correct any status typos here
+        // Correct any status typos here...this tripped me up for a while trying to pull from local storage
+        // i had previously saved array items with to-do, this probably does not matter for my deployed project
         if (task.status === 'to-do') {
             task.status = 'todo';
         }
 
-        switch (task.status) {
+        // switch statements are awesome (in this instance) "perform different actions based on different conditions" -w3schools
+            switch (task.status) {
             case 'todo':
                 $('#todo-cards').append(taskCard);
                 break;
@@ -68,10 +82,11 @@ function renderTaskList() {
                 $('#done-cards').append(taskCard);
                 break;
             default:
-                console.error("Unknown task status:", task.status);
+                console.error("Unknown task status!", task.status);
         }
     });
 
+    //above we added the attribute draggable to the taskcard div and are applying the jQuery method draggable
     $('.draggable').draggable({
         revert: "invalid",
         start: function() {
