@@ -177,6 +177,7 @@ function handleDeleteTask(event) {
 // }))
 
 //however i do believe a loop/slicing takes up more energy than .filter
+//we cover .filter in the next module if im not mistaken
 
 };
 
