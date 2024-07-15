@@ -18,3 +18,11 @@ body {
 .dragging {
   opacity: 0.5;
 }
+
+.due-soon {
+  background-color: palegoldenrod;
+}
+
+.overdue {
+  background-color: red;
+}

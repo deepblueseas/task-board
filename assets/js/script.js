@@ -29,6 +29,19 @@ function createTaskCard(task) {
         //assigning the id to the task
         .attr('data-task-id', task.id);
 
+        const currentDate = dayjs();
+        const taskDueDate = dayjs(task.dueDate);
+
+        // was the duedate before this current date?
+        if (taskDueDate.isBefore(currentDate, 'day')) {
+            taskCard.addClass('overdue');
+        // if the duedate within 4 days of the current date?
+        // there are several ways to write this (ie math.floor or .gettime - gettime/milliseconds) but this is the cleanest way
+        } else if (taskDueDate.diff(currentDate, 'day') <= 4) {
+            taskCard.addClass('due-soon');
+        } 
+
+
     //builds out the look of the new task cards
     const cardHeader = $('<div>').addClass('card-header h4').text(task.taskName);
     const cardBody = $('<div>').addClass('card-body');

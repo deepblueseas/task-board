@@ -15,7 +15,6 @@
 
 ### Notes
 - This challenge utilizes jquery, dayjs, and bootstrap
-- currently the tasks are **not** color-coded, this is incomplete
 
 ## Example of Task Board:
 ![alt text](assets/task-board.png)
